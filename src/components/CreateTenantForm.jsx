@@ -3,6 +3,26 @@ import './CreateTenantForm.css';
 
 function CreateTenantForm() {
   const [selectedPlan, setSelectedPlan] = useState('pro');
+  const [formData, setFormData] = useState({
+    name: '',
+    subdomain: '',
+    customDomain: '',
+    adminEmail: '',
+    adminPassword: '',
+    maxUsers: 10
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const isFormValid = 
+    formData.name.trim() !== '' &&
+    formData.subdomain.trim() !== '' &&
+    formData.adminEmail.trim() !== '' &&
+    formData.adminPassword.trim() !== '' &&
+    formData.maxUsers !== '';
 
   return (
     <div className="create-tenant-page">
@@ -48,7 +68,7 @@ function CreateTenantForm() {
           {/* Informações Básicas */}
           <div className="form-section glass-card">
             <div className="section-header">
-              <div className="section-icon green">
+              <div className="section-icon gray">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"/>
                   <line x1="12" y1="16" x2="12" y2="12"/>
@@ -63,6 +83,9 @@ function CreateTenantForm() {
               <div className="form-input-wrapper">
                 <input
                   type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="form-input"
                   placeholder="Ex: Acme Corp Finance"
                 />
@@ -75,6 +98,9 @@ function CreateTenantForm() {
                 <div className="form-input-wrapper">
                   <input
                     type="text"
+                    name="subdomain"
+                    value={formData.subdomain}
+                    onChange={handleChange}
                     className="form-input has-suffix"
                     placeholder="acme-fin"
                   />
@@ -87,6 +113,9 @@ function CreateTenantForm() {
                 <div className="form-input-wrapper">
                   <input
                     type="text"
+                    name="customDomain"
+                    value={formData.customDomain}
+                    onChange={handleChange}
                     className="form-input"
                     placeholder="finance.acme.com"
                   />
@@ -101,6 +130,7 @@ function CreateTenantForm() {
               <div className="section-icon green">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="M9 12l2 2 4-4"/>
                 </svg>
               </div>
               <h2 className="section-title">Usuário Administrador</h2>
@@ -118,6 +148,9 @@ function CreateTenantForm() {
                   </span>
                   <input
                     type="email"
+                    name="adminEmail"
+                    value={formData.adminEmail}
+                    onChange={handleChange}
                     className="form-input has-icon"
                     placeholder="admin@tenant.com"
                   />
@@ -135,6 +168,9 @@ function CreateTenantForm() {
                   </span>
                   <input
                     type="password"
+                    name="adminPassword"
+                    value={formData.adminPassword}
+                    onChange={handleChange}
                     className="form-input has-icon"
                     placeholder="••••••••"
                   />
@@ -214,14 +250,22 @@ function CreateTenantForm() {
                 </span>
                 <input
                   type="number"
+                  name="maxUsers"
+                  value={formData.maxUsers}
+                  onChange={handleChange}
                   className="form-input has-icon"
                   placeholder="10"
-                  defaultValue="10"
                 />
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="form-actions">
+        <button className="btn-cancel">Cancelar</button>
+        <button className="btn-submit" disabled={!isFormValid}>Criar Tenant</button>
       </div>
     </div>
   );
